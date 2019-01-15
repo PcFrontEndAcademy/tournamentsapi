@@ -24,8 +24,8 @@ const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-app.use('/students', passport.authenticate('jwt', {session: false}), studentRoute);
-app.use('/lectors', passport.authenticate('jwt', {session: false}), lectorRoute);
+app.use('/students', studentRoute);
+app.use('/lectors', lectorRoute);
 app.use('/user', userRoute);
 app.use(handleError);
 
