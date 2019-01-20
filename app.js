@@ -7,7 +7,6 @@ const userRoute = require('./routes/user');
 const lectorRoute = require('./routes/lector');
 const passport = require('passport');
 const handleError = require('./errorHandler');
-const cors = require('cors');
 
 require('./authentication/localStrategy');
 require('./authentication/jwtStrategy');
@@ -23,12 +22,6 @@ mongoose.Promise = global.Promise;
 
 const app = express();
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-  });
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use('/students', studentRoute);
@@ -36,8 +29,8 @@ app.use('/lectors', lectorRoute);
 app.use('/user', userRoute);
 app.use(handleError);
 
-app.listen(process.env.PORT || CONFIG.PORT, () => {
-    console.log('Server started!');
+const listener = app.listen(CONFIG.PORT, () => {
+    console.log(`Server started! listening on port: ${listener.address().port}`);
 })
 
 module.exports = app;
