@@ -36,7 +36,7 @@ app.use('/lectors', lectorRoute);
 app.use('/user', userRoute);
 app.use(handleError);
 
-app.listen(CONFIG.PORT, () => {
+app.listen(process.env.PORT || CONFIG.PORT, () => {
     console.log('Server started!');
 })
 
