@@ -29,7 +29,7 @@ app.use('/lectors', lectorRoute);
 app.use('/user', userRoute);
 app.use(handleError);
 
-const listener = app.listen(CONFIG.PORT, () => {
+const listener = app.listen(process.env.PORT || CONFIG.PORT, () => {
     console.log(`Server started! listening on port: ${listener.address().port}`);
 })
 
