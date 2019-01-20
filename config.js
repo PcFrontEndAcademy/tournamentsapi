@@ -1,5 +1,5 @@
 module.exports = {
-    PORT: 80,
+    PORT: 1234,
     CONNECTION_STRING: 'mongodb://admin:admin123@ds157864.mlab.com:57864/academy',
     CONNECTION_STRING_TEST: 'mongodb://localhost:27017/test',
     TOKEN_TEST: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7Il9pZCI6IjVjMDNiZGM2NTYzYjBhMGFmMGQyNTdiNyIsImVtYWlsIjoiYWRtaW4ifSwiaWF0IjoxNTQzNzkzMjI5fQ.kdtkUzpxmIrjOkglgxUVlE2gZf-em6vh7tqn83WauTk',
