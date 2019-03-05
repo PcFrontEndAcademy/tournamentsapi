@@ -2,9 +2,10 @@ const express = require('express');
 const CONFIG = require('./config');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const studentRoute = require('./routes/student');
+const participantRoute = require('./routes/participant');
 const userRoute = require('./routes/user');
-const lectorRoute = require('./routes/lector');
+const tournamentRoute = require('./routes/tournament');
+const groupRoute = require('./routes/group');
 const passport = require('passport');
 const handleError = require('./errorHandler');
 
@@ -30,8 +31,9 @@ app.use(function(req, res, next) {
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-app.use('/students', studentRoute);
-app.use('/lectors', lectorRoute);
+app.use('/participants', participantRoute);
+app.use('/tournaments', tournamentRoute);
+app.use('/groups', groupRoute);
 app.use('/user', userRoute);
 app.use(handleError);
 
