@@ -3,12 +3,11 @@ const boom = require('boom');
 
 exports.create = async function(request, response, next){
     try{
-        let tournament = new Participant({
-            name: request.body.name,
-            tournament: request.body.tournament
+        let participant = new Participant({
+            name: request.body.name
         });
     
-        let result = await tournament.save();
+        let result = await participant.save();
         response.send(result);
 
     } catch(error) {
