@@ -49,7 +49,17 @@ exports.get = async function (request, response, next){
 exports.addparticipants = async function (request, response, next){
     try{
         let group = await Group.findOneAndUpdate({_id: request.body.id},
-            {$set: { "participants" : request.body.participants}});
+            {$set: { participants : request.body.participants}});
+        response.send(group);
+    }catch(error) {
+        next(boom.badData(error));
+    }
+}
+
+exports.addparticipant = async function (request, response, next){
+    try{
+        let group = await Group.findOneAndUpdate({_id: request.body.id},
+            {$push: { participants : request.body.participant}});
         response.send(group);
     }catch(error) {
         next(boom.badData(error));
@@ -57,7 +67,8 @@ exports.addparticipants = async function (request, response, next){
 }
 
 const groupFormation = {
-    Football: groupFootbalGroup
+    Football: groupFootbalGroup,
+    TableTennis: groupTableTennisGroup
 }
 
 function groupFootbalGroup(group){
@@ -74,6 +85,27 @@ function groupFootbalGroup(group){
             GF: 0,
             GA: 0,
             GD: 0,
+            PTS: 0
+        };
+        formedGroup.push(item);
+    }
+    return formedGroup;
+}
+
+function groupTableTennisGroup(group){
+    let formedGroup = [];
+    for(var i = 0; i < group.participants.length; i++){
+        let participant = group.participants[i];
+        let item = {
+            _id: participant._id,
+            name: participant.name,
+            GP: 0,
+            W: 0,
+            D: 0,
+            L: 0,
+            SW: 0,
+            SL: 0,
+            SD: 0,
             PTS: 0
         };
         formedGroup.push(item);
