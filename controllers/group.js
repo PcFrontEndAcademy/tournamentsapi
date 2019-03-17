@@ -67,11 +67,11 @@ exports.addparticipant = async function (request, response, next){
 }
 
 const groupFormation = {
-    Football: groupFootbalGroup,
-    TableTennis: groupTableTennisGroup
+    Football: formFootbalGroup,
+    TableTennis: formTableTennisGroup
 }
 
-function groupFootbalGroup(group){
+function formFootbalGroup(group){
     let formedGroup = [];
     for(var i = 0; i < group.participants.length; i++){
         let participant = group.participants[i];
@@ -92,7 +92,7 @@ function groupFootbalGroup(group){
     return formedGroup;
 }
 
-function groupTableTennisGroup(group){
+function formTableTennisGroup(group){
     let formedGroup = [];
     for(var i = 0; i < group.participants.length; i++){
         let participant = group.participants[i];
@@ -101,7 +101,6 @@ function groupTableTennisGroup(group){
             name: participant.name,
             GP: 0,
             W: 0,
-            D: 0,
             L: 0,
             SW: 0,
             SL: 0,
