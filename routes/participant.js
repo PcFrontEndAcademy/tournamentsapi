@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post('', participantController.create);
 router.get('', participantController.get);
+router.get('/getUnusedInTournament', participantController.getUnusedInTournament);
 
 module.exports = router;
