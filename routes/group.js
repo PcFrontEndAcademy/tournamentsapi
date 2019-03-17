@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post('', groupController.create);
 router.get('', groupController.get);
-router.put('/addParticipants', groupController.addparticipants);
-router.put('/addParticipant', groupController.addparticipant);
+router.post('/addParticipants', groupController.addparticipants);
+router.post('/addParticipant', groupController.addparticipant);
 
 module.exports = router;
