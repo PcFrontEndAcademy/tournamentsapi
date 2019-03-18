@@ -80,7 +80,7 @@ exports.start = async function (request, response, next){
             Group.findOneAndUpdate(group.id, {$push:{results: results}});
         }
 
-        response.send(groups);
+        response.send(tournamentid);
     }catch(error) {
         next(boom.badData(error));
     }
