@@ -77,7 +77,7 @@ exports.start = async function (request, response, next){
         for(let i = 0; i < groups.length; i++){
             let group = groups[i];
             let results = pair(group.participants);
-            Group.findOneAndUpdate(group.id, {$push:{results: results}});
+            Group.findByIdAndUpdate(group.id, {$set:{results: results}}, function(error, doc){});
         }
 
         response.send(tournamentid);
