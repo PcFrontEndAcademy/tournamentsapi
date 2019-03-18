@@ -7,5 +7,6 @@ router.post('', groupController.create);
 router.get('', groupController.get);
 router.post('/addParticipants', groupController.addparticipants);
 router.post('/addParticipant', groupController.addparticipant);
+router.post('/start', groupController.start);
 
 module.exports = router;

@@ -67,6 +67,25 @@ exports.addparticipant = async function (request, response, next){
     }
 }
 
+exports.start = async function (request, response, next){
+    try{
+        const { tournamentid } = request.body;
+        let groups = await Group.find({tournament: tournamentid})
+            .sort('name')
+            .populate('participants');
+
+        for(let i = 0; i < groups.length; i++){
+            let group = groups[i];
+            groups.results = pair(group.participants);
+            Group.findOneAndUpdate(group._id, group);
+        }
+
+        response.send(groups);
+    }catch(error) {
+        next(boom.badData(error));
+    }
+}
+
 const groupFormation = {
     Football: formFootbalGroup,
     TableTennis: formTableTennisGroup
@@ -111,4 +130,17 @@ function formTableTennisGroup(group){
         formedGroup.push(item);
     }
     return formedGroup;
+}
+
+function pair(array) {
+    let result = [];
+    for (let i = 0; i < array.length; i++){
+        for(let j = i + 1; j < array.length; j++){
+            result.push({
+                home: array[i]._id,
+                away: array[j]._id,
+            });
+        }
+    }
+    return result;
 }
