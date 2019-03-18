@@ -33,7 +33,8 @@ exports.get = async function (request, response, next){
                 let formedGroup = {
                     name: group.name,
                     _id: group._id,
-                    participants: []
+                    participants: [],
+                    results: group.results
                 };
                 formedGroup.participants = groupFormation[tournament.type](group);
                 formedGroups.push(formedGroup);
