@@ -76,8 +76,8 @@ exports.start = async function (request, response, next){
 
         for(let i = 0; i < groups.length; i++){
             let group = groups[i];
-            groups.results = pair(group.participants);
-            Group.findOneAndUpdate(group._id, group);
+            let results = pair(group.participants);
+            Group.findOneAndUpdate(group.id, {$push:{results: results}});
         }
 
         response.send(groups);
@@ -137,8 +137,8 @@ function pair(array) {
     for (let i = 0; i < array.length; i++){
         for(let j = i + 1; j < array.length; j++){
             result.push({
-                home: array[i]._id,
-                away: array[j]._id,
+                home: array[i].id,
+                away: array[j].id,
             });
         }
     }
