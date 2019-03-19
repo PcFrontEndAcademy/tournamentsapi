@@ -1,16 +1,6 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const CONFIG = require('../config');
-const UserModel = require('../models/user');
-
-exports.signUp = async function(request, response){
-    const {email, password, age} = request;
-    const user = await UserModel.create({email, password, age});
-    response.json({
-        message: 'Sign up sucessful',
-        user: user
-    });
-}
 
 exports.login = async function(request, response){
     passport.authenticate('login', async (error, user, info) => {

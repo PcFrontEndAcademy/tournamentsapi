@@ -6,7 +6,6 @@ const participantRoute = require('./routes/participant');
 const userRoute = require('./routes/user');
 const tournamentRoute = require('./routes/tournament');
 const groupRoute = require('./routes/group');
-const passport = require('passport');
 const handleError = require('./errorHandler');
 
 require('./authentication/localStrategy');
