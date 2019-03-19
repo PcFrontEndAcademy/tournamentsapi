@@ -8,7 +8,9 @@ let groupSchema = new Schema({
     participants: [{type: Schema.Types.ObjectId, ref: 'Participant'}],
     results: [{
         away: {type: Schema.Types.ObjectId, ref: 'Participant'},
-        home: {type: Schema.Types.ObjectId, ref: 'Participant'}
+        home: {type: Schema.Types.ObjectId, ref: 'Participant'},
+        homeScore: { type: Number },
+        awayScore: { type: Number }
       }]
 });
 
