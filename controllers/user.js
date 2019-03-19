@@ -1,18 +1,17 @@
 const passport = require('passport');
 const jwt = require('jsonwebtoken');
 const CONFIG = require('../config');
-const boom = require('boom');
 
-exports.login = async function(request, response, next){
+exports.login = async function(request, response){
     passport.authenticate('login', async (error, user, info) => {
         try{
             if(error || !user){
-                next(boom.unauthorized());
+                response.send(info);
             }
 
             request.login(user, {session: false}, async (error) => {
                 if(error){
-                    next(boom.unauthorized());
+                    response.send(error);
                 }
                 const body = {_id: user._id, email: user.email};
                 const token = jwt.sign({user: body}, CONFIG.JWT_SECRET);
@@ -20,7 +19,7 @@ exports.login = async function(request, response, next){
             });
 
         } catch(err){
-            next(boom.unauthorized());
+            response.send(err.message);
         }
 
     })(request, response);
