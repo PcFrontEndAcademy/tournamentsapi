@@ -22,6 +22,8 @@ exports.get = async function (request, response, next){
         const { tournamentid } = request.query;
         let groups = await Group.find({tournament: tournamentid})
         .sort('name')
+        .populate('results.away')
+        .populate('results.home')
         .populate('participants');
 
         const tournament = await Tournament.findById(tournamentid);
