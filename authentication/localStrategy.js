@@ -7,6 +7,8 @@ loginStrategy = new LocalStrategy({
     passwordField: 'password'
 }, loginUser);
 
+// What is done?
+// Compose params instead of recalling done()
 async function loginUser (email, password, done) {
     try {
         const user = await UserModel.findOne({email});

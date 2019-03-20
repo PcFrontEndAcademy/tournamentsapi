@@ -28,6 +28,7 @@ exports.getUnusedInTournament = async function(request, response, next){
         const groups = await Group.find({tournament: tournamentid})
         let participants = await Participant.find();
 
+		// FilterUnusedParticipants
         participants = participants.filter((participant)=> {
             const usedParticipant = groups.filter((group)=> {
                 return group.participants.indexOf(participant._id) > -1;

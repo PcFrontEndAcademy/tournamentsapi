@@ -3,12 +3,16 @@ const jwt = require('jsonwebtoken');
 const CONFIG = require('../config');
 
 exports.login = async function(request, response){
+	// async function instead of arrow function
+	// try to the top
     passport.authenticate('login', async (error, user, info) => {
         try{
-            if(error || !user){
+			const isAuthenticationFailed = error || !user;
+            if(isAuthenticationFailed){
                 response.send(info);
             }
 
+			// async function
             request.login(user, {session: false}, async (error) => {
                 if(error){
                     response.send(error);

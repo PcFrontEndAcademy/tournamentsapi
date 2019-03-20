@@ -19,6 +19,7 @@ exports.create = async function(request, response, next){
 
 exports.get = async function (request, response, next){
     try {
+		// Get
         const { tournamentid } = request.query;
         let groups = await Group.find({tournament: tournamentid})
         .sort('name')
@@ -27,6 +28,8 @@ exports.get = async function (request, response, next){
         .populate('participants');
 
         const tournament = await Tournament.findById(tournamentid);
+		
+		// Build groups
         let formedGroups = [];
 
         if (tournament) {
@@ -42,7 +45,7 @@ exports.get = async function (request, response, next){
                 formedGroups.push(formedGroup);
             }
         }
-
+		
         response.send(formedGroups);
     } catch(error) {
         next(boom.badData(error));
@@ -51,6 +54,7 @@ exports.get = async function (request, response, next){
 
 exports.addparticipants = async function (request, response, next){
     try{
+		// split to two parameters
         let group = await Group.findOneAndUpdate({_id: request.body.id},
             {$set: { participants : request.body.participants}});
         response.send(group);
@@ -61,6 +65,7 @@ exports.addparticipants = async function (request, response, next){
 
 exports.addparticipant = async function (request, response, next){
     try{
+		// split to two parameters
         let group = await Group.findOneAndUpdate({_id: request.body.id},
             {$push: { participants : request.body.participant}});
         response.send(group);
@@ -72,10 +77,13 @@ exports.addparticipant = async function (request, response, next){
 exports.start = async function (request, response, next){
     try{
         const { tournamentid } = request.body;
+		
+		// Get
         let groups = await Group.find({tournament: tournamentid})
             .sort('name')
             .populate('participants');
 
+	    // BuildOponentPairs
         for(let i = 0; i < groups.length; i++){
             let group = groups[i];
             let results = pair(group.participants);
@@ -91,12 +99,15 @@ exports.start = async function (request, response, next){
 exports.addResult = async function (request, response, next){
     try{
         const { homeScore, awayScore, groupId, resultId } = request.body;
-        let group = await Group.findById(groupId);
+		let group = await Group.findById(groupId);
+		
+		// Popoulate result
         for(let i = 0; i < group.results.length; i++){
             let result = group.results[i];
             if(result.id == resultId){
                 result.homeScore = homeScore;
                 result.awayScore = awayScore;
+				break;
             }
         }
 
@@ -108,11 +119,14 @@ exports.addResult = async function (request, response, next){
     }
 }
 
+
+// Move outside all that is downwards
 const groupFormation = {
     Football: formFootbalGroup,
     TableTennis: formTableTennisGroup
 }
 
+// Build
 function formFootbalGroup(group){
     let formedGroup = [];
     for(var i = 0; i < group.participants.length; i++){
