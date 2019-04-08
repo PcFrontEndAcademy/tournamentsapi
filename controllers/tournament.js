@@ -1,4 +1,5 @@
 const Tournament = require('../models/tournament');
+const Group = require('../models/group');
 
 exports.create = async function(request, response){
     let tournament = new Tournament({
@@ -16,7 +17,15 @@ exports.get = async function (request, response){
 }
 
 exports.getOne = async function (request, response){
-    const { id } = request.query;
+    const { id } = request.params;
     let tournament = await Tournament.findById(id);
     response.send(tournament);
+}
+
+exports.delete = async function (request, response){
+    const { id } = request.query;
+
+    await Group.deleteMany({tournament: id});
+    await Tournament.findByIdAndDelete(id);
+    response.send(true);
 }
