@@ -11,6 +11,12 @@ exports.create = async function(request, response){
 }
 
 exports.get = async function (request, response){
-    let tournaments = await Tournament.find();/*populate('students')*/;
+    let tournaments = await Tournament.find();
     response.send(tournaments);
+}
+
+exports.getOne = async function (request, response){
+    const { id } = request.query;
+    let tournament = await Tournament.findById(id);
+    response.send(tournament);
 }
