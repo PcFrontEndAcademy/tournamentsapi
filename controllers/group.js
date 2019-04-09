@@ -4,13 +4,18 @@ const boom = require('boom');
 
 exports.create = async function(request, response, next){
     try{
-        let group = new Group({
-            name: request.body.name,
-            tournament: request.body.tournament
-        });
-    
-        let result = await group.save();
-        response.send(result);
+        const {tournament, groupsCount} = request.body;
+        const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('').map((c) => c.toUpperCase());
+
+        for(let i = 0; i < groupsCount; i++){
+            let group = new Group({
+                name: alphabet[i],
+                tournament: tournament
+            });
+            await group.save();
+        }
+
+        response.send(true);
 
     } catch(error) {
         next(boom.badData(error));

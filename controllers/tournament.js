@@ -18,7 +18,7 @@ exports.get = async function (request, response){
 
 exports.getOne = async function (request, response){
     const { id } = request.params;
-    let tournament = await Tournament.findById(id);
+    let tournament = await Tournament.findById(id).populate('groups', 'name');
     response.send(tournament);
 }
 
