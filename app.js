@@ -3,6 +3,7 @@ const CONFIG = require('./config');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const participantRoute = require('./routes/participant');
+const teamRoute = require('./routes/team');
 const userRoute = require('./routes/user');
 const tournamentRoute = require('./routes/tournament');
 const groupRoute = require('./routes/group');
@@ -32,6 +33,7 @@ app.use(function(req, res, next) {
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
 app.use('/participants', participantRoute);
+app.use('/teams', teamRoute);
 app.use('/tournaments', tournamentRoute);
 app.use('/groups', groupRoute);
 app.use('/user', userRoute);
