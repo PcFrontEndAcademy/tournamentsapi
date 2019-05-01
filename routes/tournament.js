@@ -7,5 +7,6 @@ router.post('', passport.authenticate('jwt', {session: false}), tournamentContro
 router.get('', tournamentController.get);
 router.get('/:id', passport.authenticate('jwt', {session: false}), tournamentController.getOne);
 router.delete('', passport.authenticate('jwt', {session: false}), tournamentController.delete);
+router.put('/updateSettings', passport.authenticate('jwt', {session: false}), tournamentController.updateSettings);
 
 module.exports = router;

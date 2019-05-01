@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 
 let TournamentSchema = new Schema({
     name: {type: String, required: true},
-    type: {type: String, required: true}
+    type: {type: String, required: true},
+    participantMode: {type: String}
 }, {toJSON: {virtuals: true}});
 
 TournamentSchema.virtual('groups', {

@@ -29,3 +29,14 @@ exports.delete = async function (request, response){
     await Tournament.findByIdAndDelete(id);
     response.send(true);
 }
+
+exports.updateSettings = async function(request, response, next){
+    try{
+        const {id, participantMode} = request.body;
+        await Tournament.findByIdAndUpdate(id, { participantMode } )
+        response.send(true);
+
+    } catch(error) {
+        next(boom.badData(error));
+    }
+}
