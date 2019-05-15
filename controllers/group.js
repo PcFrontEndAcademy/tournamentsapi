@@ -4,6 +4,7 @@ const Participant = require('../models/participant');
 const Team = require('../models/team');
 const boom = require('boom');
 const participantModes = require('../enums/participantModes');
+const mathHelpers = require('../helpers/math');
 
 exports.create = async function(request, response, next){
     try{
@@ -39,6 +40,10 @@ exports.get = async function (request, response, next){
         .populate({ path: 'results.home', model })
         .populate({ path: 'participants', model });
 
+        const closestBracket = mathHelpers.nearestPowerOf2(tournament.groupQualifiers);
+        const primaryQualifiers = closestBracket - (tournament.groupQualifiers - closestBracket);
+        const secondaryQualifiers = tournament.groupQualifiers - primaryQualifiers;
+
         let formedGroups = [];
 
         if (tournament) {
@@ -48,6 +53,8 @@ exports.get = async function (request, response, next){
                     name: group.name,
                     _id: group._id,
                     participants: [],
+                    primaryQualifiers: primaryQualifiers / groups.length,
+                    secondaryQualifiers: secondaryQualifiers / groups.length,
                     results: group.results
                 };
                 formedGroup.participants = groupFormation[tournament.type](group);

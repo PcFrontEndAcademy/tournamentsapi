@@ -32,8 +32,8 @@ exports.delete = async function (request, response){
 
 exports.updateSettings = async function(request, response, next){
     try{
-        const {id, participantMode} = request.body;
-        await Tournament.findByIdAndUpdate(id, { participantMode } )
+        const {id, participantMode, groupQualifiers} = request.body;
+        await Tournament.findByIdAndUpdate(id, { participantMode, groupQualifiers } )
         response.send(true);
 
     } catch(error) {
