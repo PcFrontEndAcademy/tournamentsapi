@@ -1,6 +1,9 @@
 const Group = require('../models/group');
 const Tournament = require('../models/tournament');
+const Participant = require('../models/participant');
+const Team = require('../models/team');
 const boom = require('boom');
+const participantModes = require('../enums/participantModes');
 
 exports.create = async function(request, response, next){
     try{
@@ -22,16 +25,20 @@ exports.create = async function(request, response, next){
     }
 }
 
+
 exports.get = async function (request, response, next){
     try {
         const { tournamentid } = request.query;
+        const tournament = await Tournament.findById(tournamentid);
+        
+        const model = tournament.participantMode === participantModes.single ? Participant : Team;
+
         let groups = await Group.find({tournament: tournamentid})
         .sort('name')
-        .populate('results.away')
-        .populate('results.home')
-        .populate('participants');
+        .populate({ path: 'results.away', model })
+        .populate({ path: 'results.home', model })
+        .populate({ path: 'participants', model });
 
-        const tournament = await Tournament.findById(tournamentid);
         let formedGroups = [];
 
         if (tournament) {
@@ -77,9 +84,12 @@ exports.addparticipant = async function (request, response, next){
 exports.start = async function (request, response, next){
     try{
         const { tournamentid } = request.body;
+        const tournament = await Tournament.findById(tournamentid);
+        
+        const model = tournament.participantMode === participantModes.single ? Participant : Team;
         let groups = await Group.find({tournament: tournamentid})
             .sort('name')
-            .populate('participants');
+            .populate({ path: 'participants', model });
 
         for(let i = 0; i < groups.length; i++){
             let group = groups[i];

@@ -1,6 +1,9 @@
 const Participant = require('../models/participant');
+const Team = require('../models/team');
 const Group = require('../models/group');
+const Tournament = require('../models/tournament');
 const boom = require('boom');
+const participantModes = require('../enums/participantModes');
 
 exports.create = async function(request, response, next){
     try{
@@ -24,9 +27,16 @@ exports.get = async function (request, response){
 exports.getUnusedInTournament = async function(request, response, next){
     try{
         const {tournamentid} = request.query;
+        const tournament = await Tournament.findById(tournamentid);
 
-        const groups = await Group.find({tournament: tournamentid})
-        let participants = await Participant.find();
+        const groups = await Group.find({tournament: tournamentid});
+        let participants;
+        
+        if(tournament.participantMode === participantModes.single){
+            participants = await Participant.find();
+        }else{
+            participants = await Team.find();
+        }
 
         participants = participants.filter((participant)=> {
             const usedParticipant = groups.filter((group)=> {
