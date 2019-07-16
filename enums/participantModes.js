@@ -1,4 +1,4 @@
 module.exports = Object.freeze({
     single: 'single',
-    teams: 'teams'
+    teams: 'teams',
 });

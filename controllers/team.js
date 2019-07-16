@@ -1,19 +1,18 @@
-const Team = require('../models/team');
 const boom = require('boom');
+const Team = require('../models/team');
 
-exports.create = async function(request, response, next){
-    try{
-        let team = new Team(request.body);
-    
-        let result = await team.save();
+exports.create = async function create(request, response, next) {
+    try {
+        const team = new Team(request.body);
+
+        const result = await team.save();
         response.send(result);
-
-    } catch(error) {
+    } catch (error) {
         next(boom.badData(error));
     }
-}
+};
 
-exports.get = async function (request, response){
-    let teams = await Team.find();
+exports.get = async function get(_request, response) {
+    const teams = await Team.find();
     response.send(teams);
-}
+};

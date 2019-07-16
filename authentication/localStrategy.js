@@ -2,28 +2,28 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const UserModel = require('../models/user');
 
-loginStrategy = new LocalStrategy({
-    usernameField: 'email',
-    passwordField: 'password'
-}, loginUser);
-
-async function loginUser (email, password, done) {
+// eslint-disable-next-line consistent-return
+async function loginUser(email, password, done) {
     try {
-        const user = await UserModel.findOne({email});
-        if(!user){
-            done(null, false, {message: 'User not found'});
+        const user = await UserModel.findOne({ email });
+        if (!user) {
+            done(null, false, { message: 'User not found' });
         }
 
         const isValid = await user.isValidPassword(password);
-        if(!isValid){
-            done(null, false, {message: 'Wrong password'});
+        if (!isValid) {
+            done(null, false, { message: 'Wrong password' });
         }
 
-        return done(null, user, {message: 'Logged in successfully :)'});
-
-    } catch(error) {
+        return done(null, user, { message: 'Logged in successfully :)' });
+    } catch (error) {
         done(error);
     }
 }
+
+const loginStrategy = new LocalStrategy({
+    usernameField: 'email',
+    passwordField: 'password',
+}, loginUser);
 
 passport.use('login', loginStrategy);

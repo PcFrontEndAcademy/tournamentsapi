@@ -1,7 +1,7 @@
 const express = require('express');
-const CONFIG = require('./config');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const CONFIG = require('./config');
 const participantRoute = require('./routes/participant');
 const teamRoute = require('./routes/team');
 const userRoute = require('./routes/user');
@@ -12,26 +12,25 @@ const handleError = require('./errorHandler');
 require('./authentication/localStrategy');
 require('./authentication/jwtStrategy');
 
-if(process.env.NODE_ENV && process.env.NODE_ENV === 'test'){
-    mongoose.connect(CONFIG.CONNECTION_STRING_TEST)
-}
-else{
-    mongoose.connect(CONFIG.CONNECTION_STRING)
+if (process.env.NODE_ENV && process.env.NODE_ENV === 'test') {
+    mongoose.connect(CONFIG.CONNECTION_STRING_TEST);
+} else {
+    mongoose.connect(CONFIG.CONNECTION_STRING);
 }
 
 mongoose.Promise = global.Promise;
 
 const app = express();
 
-app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, DELETE");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, token");
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, token');
     next();
 });
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/participants', participantRoute);
 app.use('/teams', teamRoute);
 app.use('/tournaments', tournamentRoute);
@@ -41,6 +40,6 @@ app.use(handleError);
 
 const listener = app.listen(process.env.PORT || CONFIG.PORT, () => {
     console.log(`Server started! listening on port: ${listener.address().port}`);
-})
+});
 
 module.exports = app;
